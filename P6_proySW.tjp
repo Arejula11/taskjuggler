@@ -19,7 +19,7 @@ project pSix "Web Game"  2023-03-15 +2.5m {
   # the project reports. If not specified, the current day will be
   # used, but this will likely be outside of the project range, so it
   # can't be seen in the reports.
-  now 2023-04-15-13:00
+  now 2024-05-13-13:00 # Modificar la fecha del informe
   # The currency for all money values is the US Dollar.
   currency "EUR"
 
@@ -66,6 +66,12 @@ resource dev2 "Samantha Müller" {
 }
 resource dev3 "Peter Green" {
   email "kkk@unizar.es"
+}
+
+resource dev4 "Miguel Aréjula" {
+  email 850068@unizar.es
+  rate 100
+  actual:leaves project 2024-02-07 - 2024-05-12
 }
 
 # Now we specify the work packages. The whole project is described as
@@ -158,9 +164,9 @@ task WMGame "Web & Mobile Game" {
       }
       depends WMGame.twebF
       depends WMGame.tback
+      start 2024-06-01 # Modificar la fecha de inicio de las pruebas de aceptación
   }
 
-    
   task deliveries "Milestones" {
 
     # Some milestones have customer payments associated with them. We
@@ -185,6 +191,57 @@ task WMGame "Web & Mobile Game" {
       depends WMGame.ttest
       charge 12000.0 onstart
     }
+  }
+
+  # Nuevas tareas de primer nivel
+  task mobileFrontend "Mobile Frontend" {
+    chargeset wFront
+    responsible dev4
+    depends WMGame.twebF.tGUId
+    task design "Design" {
+      effort 10d
+      allocate dev4
+    }
+    task development "Development" {
+      effort 20d
+      allocate dev4
+    }
+  }
+
+  task cloudDeployment "Cloud Deployment" {
+    chargeset back
+    responsible dev1
+    depends WMGame.tback.tBEd
+    task setup "Setup" {
+      effort 5d
+      allocate dev1
+    }
+    task configuration "Configuration" {
+      effort 10d
+      allocate dev1
+    }
+  }
+
+}
+
+# Incluirte en el equipo de desarrollo
+resource dev4 "Tu Nombre" {
+  email "tuemail@tuempresa.com"
+  rate 120
+}
+
+task WMGame {
+  task tFEc {
+    allocate dev4 4h/d
+  }
+  task tbackDev {
+    allocate dev4 4h/d
+  }
+  task mobileFrontend {
+    allocate dev4 4h/d
+  }
+  task cloudDeployment {
+    allocate dev4 4h/d
   }
 }
 
@@ -255,6 +312,12 @@ textreport frame "" {
     formats html
     title "Resource Graph"
     center '<[report id="resourceGraph"]>'
+  }
+
+  # Nuevo informe para mostrar la planificación inicial
+  textreport initialPlan "Initial Project Plan" {
+    formats html
+    center '<[report id="initialPlan"]>'
   }
 }
 
@@ -355,4 +418,18 @@ resourcereport resourceGraph "" {
   # We only like to show leaf tasks for leaf resources.
   hidetask ~(isleaf() & isleaf_())
   sorttasks plan.start.up
+}
+
+# Informe adicional para mostrar la planificación inicial
+taskreport initialPlan "" {
+  scenarios plan
+  headline "Initial Project Plan"
+  columns bsi { title 'WBS' },
+          name, start, end, effort, cost,
+          revenue, chart { ${TaskTip} }
+  timeformat "%a %Y-%m-%d"
+  loadunit days
+  hideresource @all
+  balance cost rev
+  caption 'All effort values are in man days.'
 }
