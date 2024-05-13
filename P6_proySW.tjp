@@ -1,25 +1,18 @@
-/*
- * This file contains the practice 6 source code corresponding with the 
- * project planification using TaskJuggler in the "Proyecto Software" course.
- * It is based on the Tutorial project offered by TaskJuggler and maintains 
- * some elements of it
- */
-
-project pSix "Web Game"  2023-03-15 +2.5m {
+project pSix "Web Game" 2024-05-13 +2.5m {
   # Set the default time zone for the project. If not specified, UTC
   # is used.
   timezone "Europe/Paris"
   # Hide the clock time. Only show the date.
   timeformat "%Y-%m-%d"
-  # Use Euroepan format for numbers
+  # Use European format for numbers
   numberformat "-" "" "." "," 2
-  # Use Eurpean financial format for currency values. Don't show cents.
+  # Use European financial format for currency values. Don't show cents.
   currencyformat "-" "" "." "," 2
   # Pick a day during the project that will be reported as 'today' in
   # the project reports. If not specified, the current day will be
   # used, but this will likely be outside of the project range, so it
   # can't be seen in the reports.
-  now 2024-05-13-13:00 # Modificar la fecha del informe
+  now 2024-05-13
   # The currency for all money values is the US Dollar.
   currency "EUR"
 
@@ -30,7 +23,7 @@ project pSix "Web Game"  2023-03-15 +2.5m {
 }
 
 # This is not a real copyright for this file. It's just used as an example.
-copyright "Creative Commons 2023 Proyecto Software - Unizar."
+copyright "Creative Commons 2024 Proyecto Software - Unizar."
 
 # The daily default rate of all resources. This can be overridden for each
 # resource. We specify this, so that we can do a good calculation of
@@ -52,7 +45,7 @@ balance cost rev
 
 resource boss "Liz Bullock" {
   email "iiii@unizar.es"
-  actual:leaves project 2023-05-07 - 2023-05-12
+  actual:leaves project 2024-05-07 - 2024-05-12
   rate 160
 }
 resource dev1 "Paul Smith" {
@@ -61,16 +54,14 @@ resource dev1 "Paul Smith" {
 resource dev2 "Samantha Müller" {
   email "jjj@unizar.es"
   rate 100
-  actual:leaves project 2023-05-07 - 2023-05-12
+  actual:leaves project 2024-05-07 - 2024-05-12
 }
 resource dev3 "Peter Green" {
   email "kkk@unizar.es"
 }
-
 resource dev4 "Miguel Aréjula" {
-  email "850068@unizar.es"
-  rate 100
-  actual:leaves project 2024-02-07 - 2024-05-12
+  email "a850068@unizar.es"
+  rate 120
 }
 
 # Now we specify the work packages. The whole project is described as
@@ -111,7 +102,7 @@ task WMGame "Web & Mobile Game" {
       actual:effort 11d
       allocate dev1, dev2
       depends WMGame.tback.tBEd
-      journalentry 2023-03-28 "Game logic completed before deadline" {
+      journalentry 2024-04-25 "Game logic completed before deadline" {
         author boss
         alert green
         summary "The team has ended the game logic before deadline."
@@ -124,7 +115,7 @@ task WMGame "Web & Mobile Game" {
     }
   }
 
-     task twebF "Web Front End" {
+  task twebF "Web Front End" {
     purge chargeset
     chargeset wFront
     responsible dev3
@@ -133,7 +124,7 @@ task WMGame "Web & Mobile Game" {
       effort 9d
       actual:effort 15d
       allocate dev3
-      journalentry 2023-04-11 "Problems with the GUI design tool" {
+      journalentry 2024-05-03 "Problems with the GUI design tool" {
         author dev3
         alert yellow
         summary "The tool used for the GUI design has given me a lot of problems. I recommend to look for other one."
@@ -143,32 +134,29 @@ task WMGame "Web & Mobile Game" {
       effort 15d
       allocate dev2, dev3
       depends WMGame.twebF.tGUId
-      responsible dev3 # Ensure different top-level accounts for responsible charge sets
     }
     task tFEt "Web Front End Test" {
       effort 6d
       allocate dev1
       depends WMGame.twebF.tFEc
-      responsible dev3 # Ensure different top-level accounts for responsible charge sets
     }    
   }
 
-
-    task ttest "Accpetance tests" {
+  task ttest "Acceptance tests" {
       effort 10d
       allocate boss
       allocate dev2
       actual:effort 15d
-      journalentry 2023-04-13 "Problems with the planned dates" {
+      journalentry 2024-05-05 "Problems with the planned dates" {
         author boss
         alert red
-        summary "The whole team asiigned to this task has a trip to visit a new client from May 7th to May 12th. Needed to check if the project can be finished on time or it is necessary to reasign efforts."
+        summary "The whole team assigned to this task has a trip to visit a new client from May 7th to May 12th. Needed to check if the project can be finished on time or it is necessary to reassign efforts."
       }
       depends WMGame.twebF
       depends WMGame.tback
-      start 2023-05-29 # Adjusted the start date to fall within the project timeframe
   }
 
+    
   task deliveries "Milestones" {
 
     # Some milestones have customer payments associated with them. We
@@ -193,52 +181,6 @@ task WMGame "Web & Mobile Game" {
       depends WMGame.ttest
       charge 12000.0 onstart
     }
-  }
-
-  # Nuevas tareas de primer nivel
-  task mobileFrontend "Mobile Frontend" {
-    chargeset wFront
-    responsible dev4
-    depends WMGame.twebF.tGUId
-    task design "Design" {
-      effort 10d
-      allocate dev4
-    }
-    task development "Development" {
-      effort 20d
-      allocate dev4
-    }
-  }
-
-  task cloudDeployment "Cloud Deployment" {
-    chargeset back
-    responsible dev1
-    depends WMGame.tback.tBEd
-    task setup "Setup" {
-      effort 5d
-      allocate dev1
-    }
-    task configuration "Configuration" {
-      effort 10d
-      allocate dev1
-    }
-  }
-
-}
-
-
-task WMGame {
-  task tFEc {
-    allocate dev4 4h/d
-  }
-  task tbackDev {
-    allocate dev4 4h/d
-  }
-  task mobileFrontend {
-    allocate dev4 4h/d
-  }
-  task cloudDeployment {
-    allocate dev4 4h/d
   }
 }
 
@@ -309,12 +251,6 @@ textreport frame "" {
     formats html
     title "Resource Graph"
     center '<[report id="resourceGraph"]>'
-  }
-
-  # Nuevo informe para mostrar la planificación inicial
-  textreport initialPlan "Initial Project Plan" {
-    formats html
-    center '<[report id="initialPlan"]>'
   }
 }
 
@@ -417,16 +353,118 @@ resourcereport resourceGraph "" {
   sorttasks plan.start.up
 }
 
-# Informe adicional para mostrar la planificación inicial
-taskreport initialPlan "" {
-  scenarios plan
-  headline "Initial Project Plan"
-  columns bsi { title 'WBS' },
-          name, start, end, effort, cost,
-          revenue, chart { ${TaskTip} }
-  timeformat "%a %Y-%m-%d"
-  loadunit days
-  hideresource @all
-  balance cost rev
-  caption 'All effort values are in man days.'
+
+task WMGame "Web & Mobile Game" {
+
+  # All work-related costs will be booked to this account unless the
+  # subtasks specify something different.
+  chargeset manag
+  
+  # For the duration of the project we have running cost that are not
+  # included in the labor cost.
+  charge 60 perday
+  responsible boss
+
+  task tgdesign "General System Design" {
+      effort 2d
+      allocate boss
+      depends WMGame.deliveries.start
+  }
+
+  task tback "Back End" {
+    # It is necessary to “purge” the “chargeset” because it has been assigned previously to other variable 
+    purge chargeset
+    chargeset back
+    responsible dev1
+    depends WMGame.tgdesign
+    task tBEd "Back End General Design" {
+      # The effort to finish this task is 5 man-days.
+      effort 5d
+      allocate dev1
+    }
+    task tlogic "Game logic" {
+      effort 12d
+      actual:effort 11d
+      allocate dev1, dev2
+      depends WMGame.tback.tBEd
+      journalentry 2024-04-25 "Game logic completed before deadline" {
+        author boss
+        alert green
+        summary "The team has ended the game logic before deadline."
+      }
+    }
+    task tbackDev "Back development" {
+      effort 20d
+      allocate dev1, dev2, dev4  # Asignando tarea a dev4 (Carlos Rodriguez)
+      depends WMGame.tback.tlogic
+    }
+  }
+
+  task twebF "Web Front End" {
+    purge chargeset
+    chargeset wFront
+    responsible dev3
+    depends WMGame.tback.tBEd
+    task tGUId "Web GUI Design" {
+      effort 9d
+      actual:effort 15d
+      allocate dev3
+      journalentry 2024-05-03 "Problems with the GUI design tool" {
+        author dev3
+        alert yellow
+        summary "The tool used for the GUI design has given me a lot of problems. I recommend to look for other one."
+      }
+    }
+    task tFEc "Web Front End Construction" {
+      effort 15d
+      allocate dev2, dev3
+      depends WMGame.twebF.tGUId
+    }
+    task tFEt "Web Front End Test" {
+      effort 6d
+      allocate dev1
+      depends WMGame.twebF.tFEc
+    }    
+  }
+
+  task ttest "Acceptance tests" {
+      effort 10d
+      allocate boss
+      allocate dev2
+      actual:effort 15d
+      journalentry 2024-05-05 "Problems with the planned dates" {
+        author boss
+        alert red
+        summary "The whole team assigned to this task has a trip to visit a new client from May 7th to May 12th. Needed to check if the project can be finished on time or it is necessary to reassign efforts."
+      }
+      depends WMGame.twebF
+      depends WMGame.tback
+  }
+
+    
+  task deliveries "Milestones" {
+
+    # Some milestones have customer payments associated with them. We
+    # credit these payments to the 'rev' account.
+    purge chargeset
+    chargeset rev
+
+    task start "Project start" {
+      # A task that has no duration is a milestone. It only needs a
+      # start or end criterion. All other tasks depend on this task.
+      # Here we use the built-in macro ${projectstart} to align the
+      # start of the task with the above specified project time frame.
+      start ${projectstart}
+  
+      # At the beginning of this task we receive a payment from the
+      # customer. This is credited to the account associated with this
+      # task when the task starts.
+      charge 13000.0 onstart
+    }
+
+    task done "Ship Product to Customer" {
+      depends WMGame.ttest
+      charge 12000.0 onstart
+    }
+  }
 }
