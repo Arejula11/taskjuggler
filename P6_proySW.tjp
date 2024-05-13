@@ -151,7 +151,7 @@ task WMGame "Web & Mobile Game" {
     }    
   }
 
-  task ttest "Accpetance tests" {
+    task ttest "Accpetance tests" {
       effort 10d
       allocate boss
       allocate dev2
@@ -163,7 +163,7 @@ task WMGame "Web & Mobile Game" {
       }
       depends WMGame.twebF
       depends WMGame.tback
-      start 2024-05-30
+      start 2023-05-29 # Adjusted the start date to fall within the project timeframe
   }
 
   task deliveries "Milestones" {
