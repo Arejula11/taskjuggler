@@ -124,7 +124,7 @@ task WMGame "Web & Mobile Game" {
     }
   }
 
-  task twebF "Web Front End" {
+    task twebF "Web Front End" {
     purge chargeset
     chargeset wFront
     responsible dev3
@@ -143,11 +143,13 @@ task WMGame "Web & Mobile Game" {
       effort 15d
       allocate dev2, dev3
       depends WMGame.twebF.tGUId
+      responsible dev3 # Ensure different top-level accounts for responsible charge sets
     }
     task tFEt "Web Front End Test" {
       effort 6d
       allocate dev1
       depends WMGame.twebF.tFEc
+      responsible dev3 # Ensure different top-level accounts for responsible charge sets
     }    
   }
 
