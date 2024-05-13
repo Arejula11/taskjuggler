@@ -1,4 +1,4 @@
-project pSix "Web Game" 2023-05-13 +2.5m {
+project pSix "Web Game" 2024-02-13 +2.5m {
   # Set the default time zone for the project. If not specified, UTC
   # is used.
   timezone "Europe/Paris"
