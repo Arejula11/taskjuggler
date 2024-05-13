@@ -11,16 +11,16 @@ project pSix "Web Game"  2023-03-15 +2.5m {
   timezone "Europe/Paris"
   # Hide the clock time. Only show the date.
   timeformat "%Y-%m-%d"
-  # Use European format for numbers
+  # Use Euroepan format for numbers
   numberformat "-" "" "." "," 2
-  # Use European financial format for currency values. Don't show cents.
+  # Use Eurpean financial format for currency values. Don't show cents.
   currencyformat "-" "" "." "," 2
   # Pick a day during the project that will be reported as 'today' in
   # the project reports. If not specified, the current day will be
   # used, but this will likely be outside of the project range, so it
   # can't be seen in the reports.
   now 2024-05-13-13:00 # Modificar la fecha del informe
-  # The currency for all money values is the Euro.
+  # The currency for all money values is the US Dollar.
   currency "EUR"
 
   # We want to compare the baseline scenario to one with the current one.
@@ -36,7 +36,6 @@ copyright "Creative Commons 2023 Proyecto Software - Unizar."
 # resource. We specify this, so that we can do a good calculation of
 # the costs of the project.
 rate 145.2
-
 
 # In order to do a simple profit and loss analysis of the project we
 # specify accounts. One for the development costs, one for the
@@ -152,7 +151,7 @@ task WMGame "Web & Mobile Game" {
     }    
   }
 
-  task ttest "Acceptance tests" {
+  task ttest "Accpetance tests" {
       effort 10d
       allocate boss
       allocate dev2
@@ -160,11 +159,11 @@ task WMGame "Web & Mobile Game" {
       journalentry 2023-04-13 "Problems with the planned dates" {
         author boss
         alert red
-        summary "The whole team assigned to this task has a trip to visit a new client from May 7th to May 12th. Needed to check if the project can be finished on time or it is necessary to reassign efforts."
+        summary "The whole team asiigned to this task has a trip to visit a new client from May 7th to May 12th. Needed to check if the project can be finished on time or it is necessary to reasign efforts."
       }
       depends WMGame.twebF
       depends WMGame.tback
-      start 2023-05-25 # Modificar la fecha de inicio de las pruebas de aceptación
+      start 2024-05-30
   }
 
   task deliveries "Milestones" {
@@ -224,11 +223,6 @@ task WMGame "Web & Mobile Game" {
 
 }
 
-# Include yourself in the development team
-#resource dev4 "Your Name" {
-#  email "your email@yourcompany.com"
- # rate 120
-#}
 
 task WMGame {
   task tFEc {
