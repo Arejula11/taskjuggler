@@ -102,16 +102,15 @@ task WMGame "Web & Mobile Game" {
       actual:effort 11d
       allocate dev1, dev2
       depends WMGame.tback.tBEd
-      journalentry 2024-03-02 "Game logic completed before deadline" {
+      journalentry 2024-04-25 "Game logic completed before deadline" {
         author boss
         alert green
         summary "The team has ended the game logic before deadline."
-    }
-
+      }
     }
     task tbackDev "Back development" {
       effort 20d
-      allocate dev1, dev2
+      allocate dev1, dev2, dev4  # Asignando tarea a dev4 (Carlos Rodriguez)
       depends WMGame.tback.tlogic
     }
   }
@@ -352,120 +351,4 @@ resourcereport resourceGraph "" {
   # We only like to show leaf tasks for leaf resources.
   hidetask ~(isleaf() & isleaf_())
   sorttasks plan.start.up
-}
-
-
-task WMGame "Web & Mobile Game" {
-
-  # All work-related costs will be booked to this account unless the
-  # subtasks specify something different.
-  chargeset manag
-  
-  # For the duration of the project we have running cost that are not
-  # included in the labor cost.
-  charge 60 perday
-  responsible boss
-
-  task tgdesign "General System Design" {
-      effort 2d
-      allocate boss
-      depends WMGame.deliveries.start
-  }
-
-  task tback "Back End" {
-    # It is necessary to “purge” the “chargeset” because it has been assigned previously to other variable 
-    purge chargeset
-    chargeset back
-    responsible dev1
-    depends WMGame.tgdesign
-    task tBEd "Back End General Design" {
-      # The effort to finish this task is 5 man-days.
-      effort 5d
-      allocate dev1
-    }
-    task tlogic "Game logic" {
-      effort 12d
-      actual:effort 11d
-      allocate dev1, dev2
-      depends WMGame.tback.tBEd
-      journalentry 2024-04-25 "Game logic completed before deadline" {
-        author boss
-        alert green
-        summary "The team has ended the game logic before deadline."
-      }
-    }
-    task tbackDev "Back development" {
-      effort 20d
-      allocate dev1, dev2, dev4  # Asignando tarea a dev4 (Carlos Rodriguez)
-      depends WMGame.tback.tlogic
-    }
-  }
-
-  task twebF "Web Front End" {
-    purge chargeset
-    chargeset wFront
-    responsible dev3
-    depends WMGame.tback.tBEd
-    task tGUId "Web GUI Design" {
-      effort 9d
-      actual:effort 15d
-      allocate dev3
-      journalentry 2024-05-03 "Problems with the GUI design tool" {
-        author dev3
-        alert yellow
-        summary "The tool used for the GUI design has given me a lot of problems. I recommend to look for other one."
-      }
-    }
-    task tFEc "Web Front End Construction" {
-      effort 15d
-      allocate dev2, dev3
-      depends WMGame.twebF.tGUId
-    }
-    task tFEt "Web Front End Test" {
-      effort 6d
-      allocate dev1
-      depends WMGame.twebF.tFEc
-    }    
-  }
-
-  task ttest "Acceptance tests" {
-      effort 10d
-      allocate boss
-      allocate dev2
-      actual:effort 15d
-      journalentry 2024-05-05 "Problems with the planned dates" {
-        author boss
-        alert red
-        summary "The whole team assigned to this task has a trip to visit a new client from May 7th to May 12th. Needed to check if the project can be finished on time or it is necessary to reassign efforts."
-      }
-      depends WMGame.twebF
-      depends WMGame.tback
-  }
-
-    
-  task deliveries "Milestones" {
-
-    # Some milestones have customer payments associated with them. We
-    # credit these payments to the 'rev' account.
-    purge chargeset
-    chargeset rev
-
-    task start "Project start" {
-      # A task that has no duration is a milestone. It only needs a
-      # start or end criterion. All other tasks depend on this task.
-      # Here we use the built-in macro ${projectstart} to align the
-      # start of the task with the above specified project time frame.
-      start ${projectstart}
-  
-      # At the beginning of this task we receive a payment from the
-      # customer. This is credited to the account associated with this
-      # task when the task starts.
-      charge 13000.0 onstart
-    }
-
-    task done "Ship Product to Customer" {
-      depends WMGame.ttest
-      charge 12000.0 onstart
-    }
-  }
 }
